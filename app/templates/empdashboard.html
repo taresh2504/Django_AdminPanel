@@ -1,0 +1,372 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            overflow:hidden;
+        }
+
+        /* ======= TOP HEADER ======= */
+        .topbar{
+            height:70px;
+            background:#3f5873;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 25px;
+        }
+
+        .admin-info{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .admin-img{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            object-fit:cover;
+            border:2px solid white;
+        }
+
+        .logout-btn{
+            color:#00bfff;
+            font-weight:bold;
+            text-decoration:none;
+        }
+
+        /* ======= MAIN LAYOUT ======= */
+        .container{
+            display:flex;
+            height:calc(100vh - 70px);
+        }
+
+        /* ======= SIDEBAR ======= */
+        .sidebar{
+            width:250px;
+            background:#4a637d;
+            padding-top:20px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            padding:15px 20px;
+            text-decoration:none;
+            border-bottom:1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar a:hover{
+            background:#3b5168;
+        }
+
+        /* ======= CONTENT AREA ======= */
+        .content{
+            flex:1;
+            background:#e6e6e6;
+            padding:30px;
+            overflow:auto;
+        }
+
+        .content h2{
+            margin-bottom:10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="topbar">
+        <div class="admin-info">
+            <img src="{% static data.image %}" alt="Employee" class="admin-img">
+            <h2>Welcome {{ data.Name }}</h2>
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <!-- ===== MAIN SECTION ===== -->
+    <div class="container">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'settings' %}">Settings</a>
+            <a href="{% url 'empquery' %}">Query</a>
+            <a href="{% url 'allquery' %}">All Query</a>
+            <a href="{% url 'pendingquery' %}">Pending Query</a>
+            <a href="{% url 'donequery' %}">Done Query</a>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
+            <h2>Dashboard Content Area</h2>
+            <p>Yaha aapka form ya data show hoga.</p>
+            {% if messages %}
+               {% for message in messages %}
+               {{message}}
+               {% endfor %}
+            {% endif %}
+            {% if profile %}
+                <div style="display:flex; justify-content:center; margin-top:40px;">
+                    <div style="width:400px; background:white; padding:25px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+
+                        <div style="text-align:center; margin-bottom:20px;">
+                            <img src="{{ data.Image.url }}" alt=""
+                                style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid #3f5873;">
+                        </div>
+
+                        <label><b>Name</b></label>
+                        <input type="text" value="{{ data.Name }}" readonly 
+                            style="width:100%; padding:8px; margin-bottom:10px;">
+
+                        <label><b>Email</b></label>
+                        <input type="text" value="{{ data.Email }}" readonly 
+                            style="width:100%; padding:8px; margin-bottom:10px;">
+
+                        <label><b>Department</b></label>
+                        <input type="text" value="{{ data.Dept }}" readonly 
+                            style="width:100%; padding:8px; margin-bottom:10px;">
+
+                        <label><b>Employee Code</b></label>
+                        <input type="text" value="{{ data.Code }}" readonly 
+                            style="width:100%; padding:8px; margin-bottom:10px;">
+
+                        <label><b>Contact</b></label>
+                        <input type="text" value="{{ data.Contact }}" readonly 
+                            style="width:100%; padding:8px;">
+
+                    </div>
+                </div>
+            {% elif settings %}
+            <div style="display:flex; justify-content:center; margin-top:40px;">
+                <div style="width:400px; background:white; padding:25px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
+
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <img src="{{ data.Image.url }}" alt=""
+                            style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid #3f5873;">
+                    </div>
+
+                    <label><b>Name</b></label>
+                    <input type="text" value="{{ data.Name }}" readonly 
+                        style="width:100%; padding:8px; margin-bottom:10px;">
+
+                    <label><b>Email</b></label>
+                    <input type="text" value="{{ data.Email }}" readonly 
+                        style="width:100%; padding:8px; margin-bottom:10px;">
+
+                    <label><b>Department</b></label>
+                    <input type="text" value="{{ data.Dept }}" readonly 
+                        style="width:100%; padding:8px; margin-bottom:10px;">
+
+                    <label><b>Employee Code</b></label>
+                    <input type="text" value="{{ data.Code }}" readonly 
+                        style="width:100%; padding:8px; margin-bottom:10px;">
+
+                    <label><b>Contact</b></label>
+                    <input type="text" value="{{ data.Contact }}" readonly 
+                        style="width:100%; padding:8px; margin-bottom:20px;">
+
+                    <!-- Edit Button -->
+                    <div style="text-align:center;">
+                        <a href="{% url 'edit_profile' %}" 
+                        style="background:#3f5873; color:white; padding:10px 20px; text-decoration:none; border-radius:5px;">
+                        Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% elif query %}
+            <div>
+                Query Form 
+                {% if messages %}
+                    {% for message in messages %}
+                        {{message}}
+                    {% endfor %}
+                {% endif %}
+                <form action="{% url 'querydata' %}" method="post">
+                    {% csrf_token %}
+                    Name: <input type="text" name="name" value="{{data.Name}}" readonly>
+                    Email: <input type="email" name="email" value={{data.Email}} readonly>
+                    Department: <select name="department">
+                        <option value="">Select anyone</option>
+                        {% for i in emp_dept %}
+                        <option value="{{i.Dep_name}}">{{i.Dep_name}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    Query: <input type="text" name="query">
+
+                    <input type="submit" value="Query">
+                </form>
+            </div>
+
+            {% elif 'all_q' %}
+            <form action="{% url 'search' %}" method="post">
+                {% csrf_token %}
+                    <input type="search" name="search" value="{{s}}" id="">&nbsp;
+                    <button type="submit">Search</button>
+                    {% comment %} <a href="{% url 'reset' %}"><button type="submit">Reset</button></a> {% endcomment %}
+                    <a href="{% url 'allquery' %}">Reset</a>
+                </form>                  
+            <div>
+                All
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Depatment</th>
+                            <th>Query</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>A_reply</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in all_query %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Email}}</td>
+                            <td>{{i.Dept}}</td>
+                            <td>{{i.Query}}</td>
+                            <td>
+                                {% if i.Reply %}
+                                    Done
+                                {% else %}
+                                    {{i.Status}}
+                                {% endif %}    
+                            </td>
+                            <td>{% if i.Reply %}
+                                    NA
+                                {% else %}
+                                    <a href="{% url 'emp_q_edit' pk=i.id %}">Edit</a>
+                                {% endif %}
+                            </td>
+                            <td>{% if i.Reply %}
+                                    NA
+                                {% else %}
+                                    <a href="{% url 'emp_q_delete' pk=i.id %}">Delete</a>
+                                {% endif %}</td>
+                            <td>{{i.Reply}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% if old_querydata %}
+                    <div>
+                    Query Update Form 
+                    <form action="{% url 'updated_querydata' pk=old_querydata.id %}" method="post">
+                        {% csrf_token %}
+                        Name: <input type="text" name="name" value="{{old_querydata.Name}}" readonly>
+                        Email: <input type="email" name="email" value="{{old_querydata.Email}}" readonly>
+                        Department: <select name="department">
+                            <option value="">Select anyone</option>
+                            {% for i in new_dept %}
+                            <option value="{{i.Dep_name}}">{{i.Dep_name}}</option>
+                            {% endfor %}
+                        </select>
+                    
+                        Query: <input type="text" name="query" value="{{old_querydata.Query}}">
+
+                        <input type="submit" value="Update">
+                    </form>
+                {% endif %}
+                </div>
+            </div>
+
+            {% elif pendingquery %}
+             <div>
+                Pending Query
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Depatment</th>
+                            <th>Query</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in pending %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Email}}</td>
+                            <td>{{i.Dept}}</td>
+                            <td>{{i.Query}}</td>
+                            <td>{{i.Status}}</td>
+                            <td>{% if i.Reply %}
+                                    NA
+                                {% else %}
+                                    {% comment %} <a href="{% url 'pemp_q_edit' pk=i.id %}">Edit</a> {% endcomment %}
+                                {% endif %}
+                            </td>
+                            <td>{% if i.Reply %}
+                                    NA
+                                {% else %}
+                                    {% comment %} <a href="{% url 'pemp_q_delete' pk=i.id %}">Delete</a> {% endcomment %}
+                                {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% elif donequery %}
+             <div>
+                Done Query
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Depatment</th>
+                            <th>Query</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in done %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Email}}</td>
+                            <td>{{i.Dept}}</td>
+                            <td>{{i.Query}}</td>
+                            <td>{{i.Status}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+{% endif %}
+</body>
+</html>
