@@ -412,5 +412,13 @@ def show_items(req):
         return render(req,'admindashboard.html',{'data':a_data,'show_items':True,'all_items':all_items})
     else:
         return redirect('login')
+    
+def paynow(req,pk):
+    if 'a_data' in req.session:
+        a_data = req.session.get('a_data')
+        item_details = Item.objects.filter(id=pk)
+        return render(req,'payment.html',{'data':a_data,'item_details':item_details}) 
+    else:
+        return redirect('login')   
 
         

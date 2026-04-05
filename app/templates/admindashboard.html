@@ -371,8 +371,10 @@
             <button type="submit">Add Item</button>
 
             </form>
-            {% elif show_items %}
+            {% elif show_items %} 
                 {% for i in all_items %}
+                <form action="{% url 'paynow' pk=i.id %}" method="post">
+                    {% csrf_token %}
                     <div class="card" style="width: 18rem;">
                         <img src="{{i.Item_image.url}}" class="card-img-top" alt="...">
                         <div class="card-body">
@@ -382,8 +384,9 @@
                             <p class="card-text">{{i.Item_color}}</p>
                             <p class="card-text">{{i.Item_category}}</p>
 
-                            <a href="#" class="btn btn-primary">Pay Now</a>
-                        </div>
+                            <button type="submit" class="btn btn-primary">Pay Now</button> 
+                            </form>  
+                        </div> 
                     </div>
                 {% endfor %}
             {% endif %}

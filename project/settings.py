@@ -37,8 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'app'
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME':'dnjvp8b90',
+    'API_KEY':'868796568785493',
+    'API_SECRET':'Kjw2gsLiSMFmos_rtPL7KB9lMEE'
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,3 +137,6 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'taresh25202@gmail.com'
 EMAIL_HOST_PASSWORD = 'wiwh cqyg skup edyp'
+
+MEDIA_URL = '/media/'  # or any prefix you choose
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            overflow:hidden;
+        }
+
+        /* ======= TOP HEADER ======= */
+        .topbar{
+            height:70px;
+            background:#3f5873;
+            color:white;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 25px;
+        }
+
+        .admin-info{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .admin-img{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            object-fit:cover;
+            border:2px solid white;
+        }
+
+        .logout-btn{
+            color:#00bfff;
+            font-weight:bold;
+            text-decoration:none;
+        }
+
+        /* ======= MAIN LAYOUT ======= */
+        .container{
+            display:flex;
+            height:calc(100vh - 70px);
+        }
+
+        /* ======= SIDEBAR ======= */
+        .sidebar{
+            width:250px;
+            background:#4a637d;
+            padding-top:20px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            padding:15px 20px;
+            text-decoration:none;
+            border-bottom:1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar a:hover{
+            background:#3b5168;
+        }
+
+        /* ======= CONTENT AREA ======= */
+        .content{
+            flex:1;
+            background:#e6e6e6;
+            padding:30px;
+            overflow:auto;
+        }
+
+        .content h2{
+            margin-bottom:10px;
+        }
+
+        .title{
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="topbar">
+        <div class="admin-info">
+            <img src="{% static data.image %}" alt="Admin" class="admin-img">
+            <h2>Welcome {{ data.name }}</h2>
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+
+    <h1 class="title">Proceed for paymennt</h1>
+    <br>
+
+    <div>
+        {% for i in item_details %}
+        <form action="" method="post" class="title">
+            <label for="">Item name</label>:
+            <input type="text" name="" value="{{i.Item_name}}" readonly id="">
+            <br>
+            <br>
+            <label for="">Item price</label>:
+            <input type="text" name="" value="{{i.Item_price}}" readonly id="">
+            <br>
+            <br>
+            <button type="submit">Pay Now</button>
+        </form>
+        {% endfor %}
+        
+    </div>
