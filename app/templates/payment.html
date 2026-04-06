@@ -104,22 +104,48 @@
         <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
     </div>
 
-    <h1 class="title">Proceed for paymennt</h1>
+    <h1 class="title">Proceed for paymennt 🤑</h1>
     <br>
 
     <div>
-        {% for i in item_details %}
-        <form action="" method="post" class="title">
+
+        <form action="{% url 'pay_amount' pk=item_details.id %}" method="post" class="title">
+            {% csrf_token %}
             <label for="">Item name</label>:
-            <input type="text" name="" value="{{i.Item_name}}" readonly id="">
+            <input type="text" name="itemname" value="{{item_details.Item_name}}" readonly id="">
             <br>
             <br>
             <label for="">Item price</label>:
-            <input type="text" name="" value="{{i.Item_price}}" readonly id="">
+            {% if not payment %}
+            <input type="number" name="itemprice" value="{{item_details.Item_price}}" readonly id="">
+            {% else %} 
+            <input type="number" name="itemprice" value="{{amount}}" readonly id="">
+            {% endif %}
             <br>
             <br>
             <button type="submit">Pay Now</button>
         </form>
-        {% endfor %}
+
+            <br>
+        {% if payment %}
+        <form action="{% url 'pay_amount' pk=item_details.id %}" class="title" method="post">
+             {% csrf_token %} 
+             <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_pr99iascS1WRtU"
+              data-amount="{{ payment.amount }}"
+               data-currency="{{ payment.currency }}" 
+               data-order_id="{{ payment.id }}" 
+               data-buttontext="Pay with Razorpay"
+                data-name="Neeraj Ecom" 
+                data-description="Thanku for visiting My Site"
+                 data-image="https://example.com/your_logo.jpg" 
+                 data-prefill.name="Neeraj Kumar" 
+                 data-prefill.email="Neeraj.Patel@gmail.com"
+                 data-theme.color="#2520adff" >
+
+             </script> <input type="hidden" custom="Hidden Element" name="hidden">
+             </form>
+             {% endif %}
+
         
     </div>
+

@@ -3,6 +3,8 @@ from .models import *
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.views.decorators.cache import never_cache
+from django.db.models import Q
+import razorpay
 
 # Create your views here.
 def landing(req):
@@ -416,9 +418,38 @@ def show_items(req):
 def paynow(req,pk):
     if 'a_data' in req.session:
         a_data = req.session.get('a_data')
-        item_details = Item.objects.filter(id=pk)
+        item_details = Item.objects.get(id=pk)
         return render(req,'payment.html',{'data':a_data,'item_details':item_details}) 
     else:
         return redirect('login')   
 
-        
+def pay_amount(req,pk):
+    if 'a_data' in req.session:
+        if req.method == 'POST':
+            amount1 = req.POST.get('itemprice')  
+            print(type(amount1))
+            amount = float(amount1)*100
+            client = razorpay.Client(auth =("rzp_test_pr99iascS1WRtU" , "UTDIzPGwICnAssu3Q3lk7zUi"))
+            data = { "amount": 50000, "currency": "INR", "receipt": "order_rcptid_11" }
+            payment = client.order.create(data=data) 
+            print(payment)
+            a_data = req.session.get('a_data')
+            item_details = Item.objects.get(id=pk)  
+            # {'amount': 50000, 
+            #  'amount_due': 50000, 
+            #  'amount_paid': 0, 
+            #  'attempts': 0, 
+            #  'created_at': 1775472275, 
+            #  'currency': 'INR', 
+            #  'entity': 'order', 
+            #  'id': 'order_SaB8HbfiRFL3Os', 
+            #  'notes': [], 
+            #  'offer_id': None, 
+            #  'receipt': 'order_rcptid_11', 
+            #  'status': 'created'
+            #  }
+            Order.objects.create(
+                order_id = payment.get('id'),
+                amount = int(amount1)
+            )
+            return render(req,'payment.html',{'payment':payment,'amount':amount1,'data':a_data,'item_details':item_details})    

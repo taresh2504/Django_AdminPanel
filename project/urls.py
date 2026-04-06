@@ -52,5 +52,6 @@ urlpatterns = [
     path('admindashboard/add_item/',views.add_item,name='add_item'),
     path('admindashboard/show_items/',views.show_items,name='show_items'),
     path('admindashboard/show_items/paynow/<int:pk>/',views.paynow,name='paynow'),
+    path('pay_amount/<int:pk>/',views.pay_amount,name='pay_amount')
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
