@@ -453,3 +453,13 @@ def pay_amount(req,pk):
                 amount = int(amount1)
             )
             return render(req,'payment.html',{'payment':payment,'amount':amount1,'data':a_data,'item_details':item_details})    
+
+def pay_status(req,pk):
+    print(req.POST)
+    rpi = req.POST.get('razorpay_payment_id')
+    roi = req.POST.get('razorpay_order_id')
+    old_roi = Order.objects.get(order_id=roi)
+    old_roi.razorpay_id = rpi
+    old_roi.payment_status = True
+    old_roi.save()
+    return render(req,'success.html')

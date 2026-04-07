@@ -128,7 +128,7 @@
 
             <br>
         {% if payment %}
-        <form action="{% url 'pay_amount' pk=item_details.id %}" class="title" method="post">
+        <form action="{% url 'pay_status' pk=item_details.id %}" class="title" method="post">
              {% csrf_token %} 
              <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_pr99iascS1WRtU"
               data-amount="{{ payment.amount }}"
